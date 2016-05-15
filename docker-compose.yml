@@ -1,0 +1,28 @@
+php:
+  build: .
+  links:
+    - php_db:mysql
+    - maildev:maildev
+  ports:
+    - 8080:80
+
+php_db:
+  image: mariadb
+  environment:
+    MYSQL_ROOT_PASSWORD: examplepass
+
+phpmyadmin:
+  image: phpmyadmin/phpmyadmin
+  links:
+    - php_db:db
+  ports:
+    - 8181:80
+  environment:
+    PMA_USER: root
+    PMA_PASSWORD: examplepass
+    PHP_UPLOAD_MAX_FILESIZE: 100MB
+
+maildev:
+  image: djfarrelly/maildev
+  ports:
+   - 8282:80
